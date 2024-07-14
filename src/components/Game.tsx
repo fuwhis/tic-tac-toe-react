@@ -8,6 +8,7 @@ const Game: React.FC = () => {
   const [board, setBoard] = useState<CellValue[]>(Array(9).fill(null))
   const [xIsNext, setXIsNext] = useState<boolean>(true)
   const winner = calculateWinner(board)
+  const isDraw = board.every((cell) => cell !== null) && !winner
 
   const handleClick = (index: number) => {
     const boardCopy = [...board]
@@ -31,8 +32,16 @@ const Game: React.FC = () => {
   return (
     <div className='game'>
       <Board cells={board} onClick={handleClick} />
-      {winner && <div className='game-info'>Winner is {winner}</div>}
-      <button onClick={handleResetGame}>Reset game</button>
+      {winner ? (
+        <div className='game-info'>Winner is {winner}</div>
+      ) : isDraw ? (
+        <div className='game-info'>End game!</div>
+      ) : (
+        <div className='game-info'>Next player: {xIsNext ? 'X' : 'O'}</div>
+      )}
+      <button onClick={handleResetGame} disabled={!isDraw && winner === null}>
+        Reset game
+      </button>
     </div>
   )
 }
