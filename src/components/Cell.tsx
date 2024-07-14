@@ -1,4 +1,7 @@
-const Cell = ({ value, onClick, cellStyle }: any) => {
+import React from 'react'
+import { CellProps } from './types'
+
+const Cell: React.FC<CellProps> = ({ value, onClick, cellStyle }) => {
   return (
     <div className={`game-cell ${cellStyle}`} onClick={onClick}>
       {value}

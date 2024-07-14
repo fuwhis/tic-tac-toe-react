@@ -1,4 +1,6 @@
-export function calculateWinner(cells: any) {
+import { CellValue } from "./components/types"
+
+export function calculateWinner(cells: CellValue[]): CellValue {
   const lines = [
     [0, 1, 2],
     [3, 4, 5],

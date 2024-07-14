@@ -4,7 +4,8 @@ import Game from './components/Game'
 function App() {
   return (
     <div>
-      <Game>abc</Game>
+      <h2>TIC TAC TOE</h2>
+      <Game />
     </div>
   )
 }

@@ -1,20 +1,15 @@
+import React from 'react'
 import Cell from './Cell'
+import { BoardProps } from './types'
 
-const Board = (props: any) => {
-  // const cells = [
-  //   null, null, null,
-  //   'X', 'X', 'X',
-  //   null, null, null
-  // ]
-  // console.log(calculateWinner(cells))
-
+const Board: React.FC<BoardProps> = ({ cells, onClick }) => {
   return (
     <div className='game-board'>
-      {props.cells.map((item: any, index: number) => (
+      {cells.map((item, index) => (
         <Cell
           key={index}
           value={item}
-          onClick={() => props.onClick(index)}
+          onClick={() => onClick(index)}
           cellStyle={item === 'X' ? 'is-x' : item === 'O' ? 'is-o' : ''}
         />
       ))}
