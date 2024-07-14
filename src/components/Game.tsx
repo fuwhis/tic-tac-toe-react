@@ -29,9 +29,9 @@ const Game: React.FC = () => {
   }
 
   return (
-    <div>
+    <div className='game'>
       <Board cells={board} onClick={handleClick} />
-      {winner && <div className='game-winner-lb'>Winner is {winner}</div>}
+      {winner && <div className='game-info'>Winner is {winner}</div>}
       <button onClick={handleResetGame}>Reset game</button>
     </div>
   )

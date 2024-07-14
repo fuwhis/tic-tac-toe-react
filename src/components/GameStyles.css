@@ -8,7 +8,16 @@
   grid-template-rows: repeat(3, 1fr);
 }
 
+@media (max-width: 400px) {
+  .game-board {
+    width: 100%;
+  }
+}
+
 .game-cell {
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
   border: 1px solid #ccc;
   cursor: pointer;
   display: flex;
@@ -18,6 +27,18 @@
   font-size: 80px;
   text-shadow: rgba(149, 157, 165, 0.2) 4px 3px 4px;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  transition: background-color 0.3s ease;
+}
+
+.game-cell:hover {
+  background-color: #f0f0f0;
+}
+
+@media (max-width: 400px) {
+  .game-cell {
+    height: 100%;
+    font-size: 20px;
+  }
 }
 
 .game-cell.is-x {
@@ -28,7 +49,7 @@
   color: blue;
 }
 
-.game-winner-lb {
+.game-info {
   color: #eeba30;
   text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.6);
   font-size: 40px;
