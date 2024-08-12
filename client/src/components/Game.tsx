@@ -1,8 +1,11 @@
 import React, { useState } from 'react'
+import { io } from 'socket.io-client'
 import { calculateWinner } from '../utils'
 import Board from './Board'
 import './GameStyles.css'
 import { CellValue } from './types'
+
+const socket = io('https://server-domain.com')
 
 const Game: React.FC = () => {
   const [board, setBoard] = useState<CellValue[]>(Array(9).fill(null))
