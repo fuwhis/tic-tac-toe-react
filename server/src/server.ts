@@ -1,85 +1,70 @@
-const { createServer } = require("http")
-const { Server } = require("socket.io")
+#!/usr/bin/env node
 
-const httpServer = createServer()
-const io = new Server(httpServer, {
-  cors: "http://localhost:3000/",
-})
+/**
+ * Module dependencies
+ */
 
-const allUsers = {}
-const allRooms = []
+import * as http from 'http'
+import 'reflect-metadata'
+import app from './app'
+import { normalizePort } from './helper/utils'
+import socketServer from './socket'
+var debug = require("debug")("socketio-server:server")
 
-io.on("connection", (socket) => {
-  allUsers[socket.id] = {
-    socket: socket,
-    online: true,
+/**
+ * Get port from environment and store in Express.
+ */
+
+var port = normalizePort(process.env.PORT || "9000")
+app.set("port", port)
+
+/**
+ * Create HTTP server.
+ */
+
+var server = http.createServer(app)
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+
+server.listen(port)
+server.on("error", onError)
+server.on("listening", onListening)
+
+const io = socketServer(server)
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+function onError(error) {
+  if (error.syscall !== "listen") {
+    throw error
   }
 
-  socket.on("request_to_play", (data) => {
-    const currentUser = allUsers[socket.id]
-    currentUser.playerName = data.playerName
+  var bind = typeof port === "string" ? "Pipe " + port : "Port " + port
 
-    let opponentPlayer
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case "EACCES":
+      console.error(bind + " requires elevated privileges")
+      process.exit(1)
+    case "EADDRINUSE":
+      console.error(bind + " is already in use")
+      process.exit(1)
+    default:
+      throw error
+  }
+}
 
-    for (const key in allUsers) {
-      const user = allUsers[key]
-      if (user.online && !user.playing && socket.id !== key) {
-        opponentPlayer = user
-        break
-      }
-    }
+/**
+ * Event listener for HTTP server "listening" event.
+ */
 
-    if (opponentPlayer) {
-      allRooms.push({
-        player1: opponentPlayer,
-        player2: currentUser,
-      })
+function onListening() {
+  var addr = server.address()
+  var bind = typeof addr === "string" ? "pipe " + addr : "port " + addr.port
+  debug("Listening on " + bind)
 
-      currentUser.socket.emit("OpponentFound", {
-        opponentName: opponentPlayer.playerName,
-        playingAs: "circle",
-      })
-
-      opponentPlayer.socket.emit("OpponentFound", {
-        opponentName: currentUser.playerName,
-        playingAs: "cross",
-      })
-
-      currentUser.socket.on("playerMoveFromClient", (data) => {
-        opponentPlayer.socket.emit("playerMoveFromServer", {
-          ...data,
-        })
-      })
-
-      opponentPlayer.socket.on("playerMoveFromClient", (data) => {
-        currentUser.socket.emit("playerMoveFromServer", {
-          ...data,
-        })
-      })
-    } else {
-      currentUser.socket.emit("OpponentNotFound")
-    }
-  })
-
-  socket.on("disconnect", function () {
-    const currentUser = allUsers[socket.id]
-    currentUser.online = false
-    currentUser.playing = false
-
-    for (let index = 0; index < allRooms.length; index++) {
-      const { player1, player2 } = allRooms[index]
-
-      if (player1.socket.id === socket.id) {
-        player2.socket.emit("opponentLeftMatch")
-        break
-      }
-
-      if (player2.socket.id === socket.id) {
-        player1.socket.emit("opponentLeftMatch")
-        break
-      }
-    }
-  })
-})
-
-httpServer.listen(3000)
+  console.log("Server Running on Port: ", port)
+}
