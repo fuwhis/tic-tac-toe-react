@@ -1,35 +1,54 @@
-import React, { useState } from 'react'
-import { io } from 'socket.io-client'
+import React, { useReducer } from 'react'
 import { calculateWinner } from '../utils'
 import Board from './Board'
 import './GameStyles.css'
-import { CellValue } from './types'
+import { GameAction, GameState } from './types'
 
-const socket = io('https://server-domain.com')
+const initialState: GameState = {
+  board: Array(9).fill(null),
+  xIsNext: true
+}
+
+const gameReducer = (state: GameState, action: GameAction) => {
+  switch (action.type) {
+    case 'CLICK':
+      const { board, xIsNext } = state
+      const boardCopy = [...board]
+      const winner = calculateWinner(board)
+
+      if (winner || boardCopy[action.index]) {
+        return state
+      }
+
+      // Update the board and toggle player
+      boardCopy[action.index] = xIsNext ? 'X' : 'O'
+
+      return {
+        ...state,
+        board: boardCopy,
+        xIsNext: !xIsNext
+      }
+    case 'RESET':
+      return initialState
+    default:
+      return state
+  }
+}
 
 const Game: React.FC = () => {
-  const [board, setBoard] = useState<CellValue[]>(Array(9).fill(null))
-  const [xIsNext, setXIsNext] = useState<boolean>(true)
+  const [state, dispatch] = useReducer(gameReducer, initialState)
+  const { board, xIsNext } = state
   const winner = calculateWinner(board)
   const isDraw = board.every((cell) => cell !== null) && !winner
 
   const handleClick = (index: number) => {
-    const boardCopy = [...board]
-    // in case: appear winner or current cell is clicked, -> return
-    if (winner || boardCopy[index]) {
-      return
-    }
-
-    // on position click, return 'X' or 'O'
-    boardCopy[index] = xIsNext ? 'X' : 'O'
-    setBoard(boardCopy)
-    setXIsNext((xIsNext) => !xIsNext)
+    dispatch({ type: 'CLICK', index })
   }
 
   const handleResetGame = () => {
-    setBoard(Array(9).fill(null))
     // In case, reset game then the game just only start by 'X'
     // setXIsNext(true)
+    dispatch({ type: 'RESET' })
   }
 
   return (
