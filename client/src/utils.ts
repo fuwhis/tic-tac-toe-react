@@ -1,4 +1,4 @@
-import { CellValue } from "./components/types"
+import { CellValue } from "./types/game-types"
 
 export function calculateWinner(cells: CellValue[]): CellValue {
   const lines = [

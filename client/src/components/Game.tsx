@@ -1,8 +1,8 @@
 import React, { useReducer } from 'react'
+import { GameAction, GameState } from '../types/game-types'
 import { calculateWinner } from '../utils'
 import Board from './Board'
-import './GameStyles.css'
-import { GameAction, GameState } from './types'
+import './GameStyles.scss'
 
 const initialState: GameState = {
   board: Array(9).fill(null),
