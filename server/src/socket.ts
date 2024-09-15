@@ -8,8 +8,8 @@ export default (httpServer) => {
     },
   })
 
-  io.on("connection", () => {
-
+  io.on("connection", (socket) => {
+    console.log('connection_id', socket.id)
   })
 
   useSocketServer(io, {
