@@ -1,6 +1,8 @@
 export { default as AlertDialog } from './alert'
+export { default as Fallback } from './fallback'
 export { default as Footer } from './footer'
 export { default as GameBoard } from './Game'
 export { default as Header } from './header'
 export { default as JoinRoom } from './join-room'
+export { default as Loading } from './loading'
 export { default as SideBar } from './sidebar'

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
-import './App.scss'
+import { Routes } from 'react-router-dom'
+import '~/assets/scss/global.scss'
 import Game from './components/Game'
 import socketService from './services/socket-service'
 
@@ -27,10 +28,13 @@ function App() {
   }, [connect])
 
   return (
-    <div className='app'>
-      <h2>TIC TAC TOE</h2>
-      <Game />
-    </div>
+    <>
+      <Routes />
+      <div className='app'>
+        <h2>TIC TAC TOE</h2>
+        <Game />
+      </div>
+    </>
   )
 }
 
