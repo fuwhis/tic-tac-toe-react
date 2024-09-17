@@ -1,5 +1,6 @@
 import { Button as MaterialButton, ButtonProps as MaterialButtonProps } from '@mui/material'
 import React from 'react'
+import buttonStyles from './button.module.scss'
 
 // Define types for button properties
 export type ButtonColor = 'primary' | 'gradient'
@@ -36,7 +37,21 @@ const Button = ({
     ...sx
   }
 
-  return <MaterialButton>{children}</MaterialButton>
+  // Generate dynamic classes for the button
+  const dynamicClasses = `
+  ${buttonStyles.custom_btn} 
+  ${buttonStyles[`size_${buttonSize}`]} 
+  ${buttonStyles[`variant_${buttonColor}_${appearance}`]} 
+  ${className}
+  ${buttonStyles[`type_${buttonType}`]}
+  `
+
+  // Render the button with a loading spinner or children based on isLoading prop
+  return (
+    <MaterialButton sx={customStyling} className={dynamicClasses} {...remainingProps}>
+      {children}
+    </MaterialButton>
+  )
 }
 
 export default Button

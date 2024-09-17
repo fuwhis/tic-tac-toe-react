@@ -1,4 +1,5 @@
 import React, { useReducer } from 'react'
+import { Button } from '../shared'
 import { GameAction, GameState } from '../types/game-types'
 import { calculateWinner } from '../utils'
 import Board from './Board'
@@ -64,6 +65,7 @@ const Game: React.FC = () => {
       <button onClick={handleResetGame} disabled={!isDraw && winner === null}>
         Reset game
       </button>
+      <Button>Reset game</Button>
     </div>
   )
 }

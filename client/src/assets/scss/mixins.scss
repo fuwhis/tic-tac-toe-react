@@ -1,2 +1,117 @@
 @import './variables';
 @import 'sass-rem';
+
+// built-in function to rem calculate based pixel value
+// @function rem($pixels, $base: 16px) {
+//   @return $pixels / $base * 1rem;
+// }
+
+// function add important on production
+@function is-important($important) {
+  @return #{if($important, '!important', '')};
+}
+
+// Breakpoints
+@mixin smMinBreakPoint {
+  @media (min-width: #{$screen-sm}) {
+    @content;
+  }
+}
+
+@mixin mdMinBreakPoint {
+  @media (min-width: #{$screen-md}) {
+    @content;
+  }
+}
+
+@mixin lgMinBreakPoint {
+  @media (min-width: #{$screen-lg}) {
+    @content;
+  }
+}
+
+@mixin xlMinBreakPoint {
+  @media (min-width: #{$screen-xl}) {
+    @content;
+  }
+}
+
+@mixin xxlMinBreakPoint {
+  @media (min-width: #{$screen-xxl}) {
+    @content;
+  }
+}
+
+@mixin customMinBreakPoint($size) {
+  @media (min-width: ($size+'px')) {
+    @content;
+  }
+}
+
+@mixin customMaxBreakPoint($size) {
+  @media (max-width: ($size + 'px')) {
+    @content;
+  }
+}
+
+@mixin link {
+  font-weight: 400;
+  @include rem(
+    (
+      font-size: 14px,
+      line-height: 20px
+    )
+  );
+  color: $grey63;
+}
+
+@mixin collapseItem {
+  font-weight: 500;
+  @include rem(
+    (
+      font-size: 16px,
+      line-height: 24px
+    )
+  );
+  color: $grey-83;
+}
+
+@mixin flex_end {
+  display: flex;
+  justify-content: end;
+}
+
+@mixin text-sm-regular {
+  @include rem(
+    (
+      font-size: 14px,
+      line-height: 20px
+    )
+  );
+  font-weight: 400;
+}
+
+@mixin text-sm-medium {
+  @include rem(
+    (
+      font-size: 14px,
+      line-height: 20px
+    )
+  );
+  font-weight: 500;
+}
+
+// custom scrollbar
+@mixin scrollbar {
+  &::-webkit-scrollbar {
+    width: 6px;
+    background-color: transparent;
+    margin: 10px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: #c4c6cd;
+    border-radius: 24px;
+  }
+  scrollbar-width: thin !important;
+  overflow-x: hidden;
+}
