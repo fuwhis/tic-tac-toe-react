@@ -40,6 +40,7 @@ export class RoomController {
     const updatedRoom = io.sockets.adapter.rooms.get(roomId)
     const playerCount = updatedRoom ? updatedRoom.size : 0
     const symbol = playerCount === 1 ? "X" : "O"
+    socket.data.symbol = symbol
 
     socket.emit("room_joined", { roomId, username, symbol })
     if (playerCount === 1) {
@@ -53,9 +54,11 @@ export class RoomController {
         const currentSocket = io.sockets.sockets.get(socketId)
         return {
           id: socketId,
-          username: currentSocket?.data?.username || `Player-${socketId.slice(0, 4)}`
+          username: currentSocket?.data?.username || `Player-${socketId.slice(0, 4)}`,
+          symbol: currentSocket?.data?.symbol || "X"
         }
       })
+      .sort((a, b) => (a.symbol === "X" ? 0 : 1) - (b.symbol === "X" ? 0 : 1))
 
       io.to(roomId).emit("start_game", {
         roomId,
