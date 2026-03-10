@@ -1,0 +1,64 @@
+@media (max-width: 768px) {
+  .game_board {
+    width: calc(500px + 100px);
+    height: calc(500px + 100px);
+    margin: 25px 0px;
+  }
+}
+
+@media (max-width: 480px) {
+  .game_board {
+    width: calc(500px - 100px);
+    height: calc(500px - 100px);
+    margin: 25px 0px;
+  }
+}
+
+.game_info {
+  color: #eeba30;
+  text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.6);
+  font-size: 40px;
+  font-weight: 800;
+  margin: 25px;
+}
+
+.score_section,
+.history_section {
+  width: min(900px, calc(100% - 32px));
+  margin: 16px auto;
+  color: #ffffff;
+}
+
+.score_section h3,
+.history_section h3 {
+  margin-bottom: 8px;
+}
+
+.score_list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.history_table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.history_table th,
+.history_table td {
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  padding: 10px;
+  text-align: left;
+}
+
+.history_table th {
+  background-color: rgba(0, 0, 0, 0.35);
+}
+
+.empty_text {
+  color: rgba(255, 255, 255, 0.8);
+}

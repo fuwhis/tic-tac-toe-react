@@ -1,0 +1,23 @@
+@import 'src/assets/scss/variables.scss';
+
+.txt {
+  &.txt_default {
+    color: $solid-neutral-900;
+  }
+
+  &.txt_error {
+    color: $red-a9;
+  }
+
+  &.txt_grey-83 {
+    color: $grey-83;
+  }
+
+  &.txt_black-38 {
+    color: $black-38;
+  }
+
+  &.txt_solid-neutral-500 {
+    color: $solid-neutral-500;
+  }
+}

@@ -1,0 +1,251 @@
+@import '../../assets/scss/variables.scss';
+@import '../../assets/scss/mixins.scss';
+@import 'sass-rem';
+
+.custom_btn {
+  &.size {
+    &_lg {
+      height: rem(56px);
+      font-size: rem(16px);
+      font-weight: 700;
+    }
+    &_md {
+      height: rem(44px);
+      font-size: rem(14px);
+      font-weight: 500;
+    }
+    &_sm {
+      height: rem(36px);
+      font-size: rem(12px);
+      font-weight: 400;
+    }
+  }
+  &.variant {
+    &_primary {
+      &_solid {
+        background: $black-09;
+        color: $white-basic;
+        @extend .init;
+        &:hover {
+          background: $solid-neutral-500;
+        }
+        &:focus {
+          background: $solid-neutral-500;
+          box-shadow: $bs-mul-sec-1;
+        }
+        &:disabled {
+          background: $grey-c4;
+          color: $white-basic;
+        }
+      }
+      &_light-solid {
+        background: $grey-e1;
+        color: $black-09;
+        @extend .init;
+        &:hover {
+          background: $grey-f1;
+        }
+        &:focus {
+          background: $grey-f1;
+          box-shadow: $bs-mul-sec-1;
+        }
+        &:disabled {
+          background: $grey-f1;
+        }
+      }
+      &_outline {
+        border: 1px solid $black-09;
+        background: $white-basic;
+        color: $black-09;
+        @extend .init;
+        &:hover {
+          background: $grey-f1;
+        }
+        &:focus {
+          background: $grey-f1;
+          box-shadow: $bs-mul-sec-1;
+        }
+        &:disabled {
+          background: $white-basic;
+          border: 1px solid $grey-c4;
+        }
+      }
+      &_light-outline {
+        border: 1px solid $grey-e1;
+        background: $white-basic;
+        color: $black-09;
+        @extend .init;
+        &:hover {
+          background: $grey-f1;
+          border: 1px solid $grey-c4;
+        }
+        &:focus {
+          background: $grey-f1;
+          border: 1px solid $grey-c4;
+          box-shadow: $bs-mul-sec-1;
+        }
+        &:disabled {
+          background: $white-basic;
+          border: 1px solid $grey-f1;
+        }
+      }
+      &_ghost {
+        background: $white-basic;
+        color: $black-09;
+        @extend .init;
+        &:hover {
+          background: $gray-20;
+        }
+        &:focus {
+          background: $gray-20;
+          box-shadow: $bs-mul-sec-1;
+        }
+        &:disabled {
+          background: $white-basic;
+        }
+      }
+      &_hyperlink {
+        height: fit-content;
+        width: fit-content;
+        padding: 0;
+        font-size: rem(14px);
+        font-weight: 400;
+        text-decoration: underline;
+        color: $blue-custom;
+        &:hover {
+          color: $black-38;
+          text-decoration: underline;
+        }
+        &:focus {
+          color: $black-38;
+          box-shadow: $bs-mul-sec-1;
+        }
+        &:disabled {
+          color: $black-09;
+        }
+      }
+    }
+    &_gradient {
+      &_solid {
+        // background: $gradient-t-200-p-500;
+        background: $gradient-sky;
+        color: $white-basic;
+        @extend .init;
+        &:hover {
+          // background: $gradient-p-500-t-200;
+          background: $gradient-blue-2;
+        }
+        &:focus {
+          // background: $gradient-p-500-t-200;
+          background: $gradient-blue-2;
+          box-shadow: $bs-mul-sec-1;
+        }
+        &:disabled {
+          // background: $grey-c4;
+          background: $gray-40;
+          color: $white-basic;
+        }
+      }
+      &_light-solid {
+        background: $solid-primary-50;
+        color: $solid-primary-500;
+        @extend .init;
+        &:hover {
+          background: $solid-primary-100;
+        }
+        &:focus {
+          background: $solid-primary-100;
+          box-shadow: $bs-mul-sec-1;
+        }
+        &:disabled {
+          background: $solid-primary-50;
+        }
+      }
+      &_outline {
+        border: 1px solid $solid-primary-500;
+        background: $white-basic;
+        color: $solid-primary-500;
+        @extend .init;
+        &:hover {
+          background: $solid-primary-50;
+        }
+        &:focus {
+          background: $solid-primary-50;
+          box-shadow: $bs-mul-sec-1;
+        }
+        &:disabled {
+          background: $white-basic;
+          border: 1px solid $solid-primary-200;
+        }
+      }
+      &_light-outline {
+        border: 1px solid $solid-primary-100;
+        background: $white-basic;
+        color: $solid-primary-500;
+        @extend .init;
+        &:hover {
+          background: $solid-primary-50;
+          border: 1px solid $solid-primary-200;
+        }
+        &:focus {
+          background: $solid-primary-50;
+          border: 1px solid $solid-primary-200;
+          box-shadow: $bs-mul-sec-1;
+        }
+        &:disabled {
+          background: $white-basic;
+          border: 1px solid $solid-primary-50;
+        }
+      }
+      &_ghost {
+        background: $white-basic;
+        color: $black-09;
+        @extend .init;
+        &:hover {
+          background: $gray-20;
+        }
+        &:focus {
+          background: $gray-20;
+          box-shadow: $bs-mul-sec-1;
+        }
+        &:disabled {
+          background: $white-basic;
+        }
+      }
+      &_hyperlink {
+        height: fit-content;
+        width: fit-content;
+        padding: 0;
+        font-size: rem(14px);
+        font-weight: 400;
+        text-decoration: underline;
+        color: $solid-primary-500;
+        &:hover {
+          color: $solid-primary-400;
+          text-decoration: underline;
+        }
+        &:focus {
+          color: $solid-primary-400;
+          box-shadow: $bs-mul-sec-1;
+        }
+        &:disabled {
+          color: $solid-primary-500;
+        }
+      }
+    }
+  }
+  &.type {
+    &_normal {
+      border-radius: inherit;
+    }
+    &_on-table {
+      border-radius: rem(50px) !important;
+    }
+  }
+}
+
+.init {
+  padding-right: rem(16px);
+  padding-left: rem(16px);
+  border-radius: rem(6px);
+}
