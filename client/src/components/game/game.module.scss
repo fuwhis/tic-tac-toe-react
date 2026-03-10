@@ -1,0 +1,23 @@
+@media (max-width: 768px) {
+  .game_board {
+    width: calc(500px + 100px);
+    height: calc(500px + 100px);
+    margin: 25px 0px;
+  }
+}
+
+@media (max-width: 480px) {
+  .game_board {
+    width: calc(500px - 100px);
+    height: calc(500px - 100px);
+    margin: 25px 0px;
+  }
+}
+
+.game_info {
+  color: #eeba30;
+  text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.6);
+  font-size: 40px;
+  font-weight: 800;
+  margin: 25px;
+}

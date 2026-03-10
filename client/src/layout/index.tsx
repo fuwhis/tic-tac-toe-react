@@ -1,20 +1,15 @@
-import { GameBoard } from '../components'
+import { Outlet } from 'react-router-dom'
 
-function GameLayout() {
+const Layout: React.FC = () => {
   return (
-    <>
-      <section className='app-section' style={{ display: 'flex', flexDirection: 'row' }}>
-        {/* <SideBar /> */}
-        <section className='content-section' style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
-          {/* <Header /> */}
-          <main>
-            <GameBoard />
-          </main>
-          {/* <Footer /> */}
-        </section>
-      </section>
-    </>
+    <div className='app'>
+      {/* <Header /> */}
+      <main>
+        <Outlet /> {/* This will render the current route component */}
+      </main>
+      {/* <Footer /> */}
+    </div>
   )
 }
 
-export default GameLayout
+export default Layout

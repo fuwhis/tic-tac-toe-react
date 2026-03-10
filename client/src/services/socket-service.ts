@@ -1,20 +1,26 @@
 import { io, Socket } from "socket.io-client"
-import { EventsMap } from "../types/socket-types"
+import { SocketEventMap } from "../types/socket-types"
 
 class SocketService {
-  public socket: Socket<EventsMap> | null = null
+  public socket: Socket | null = null
 
-  public connect(url: string): Promise<Socket<EventsMap>> {
+  public connect(url: string): Promise<Socket> {
     return new Promise((resolve, reject) => {
+      if (this.socket?.connected) {
+        resolve(this.socket)
+        return
+      }
+
       this.socket = io(url)
 
       if (!this.socket) {
         reject(this.socket)
+        return
       }
 
       this.socket.on("connect", () => {
         console.log("Connect to server")
-        resolve(this.socket as Socket<EventsMap>)
+        resolve(this.socket as Socket)
       })
 
       this.socket.on("connect_error", (err) => {
@@ -24,7 +30,7 @@ class SocketService {
     })
   }
 
-  public emit(event: keyof EventsMap, data: any): void {
+  public emit<K extends keyof SocketEventMap>(event: K, data: SocketEventMap[K]): void {
     if (this.socket) {
       this.socket.emit(event, data)
     } else {
@@ -32,9 +38,15 @@ class SocketService {
     }
   }
 
-  public on(event: any, callback: (data: any) => void): void {
+  public on<K extends keyof SocketEventMap>(event: K, callback: (data: SocketEventMap[K]) => void): void {
     if (this.socket) {
       this.socket.on(event, callback)
+    }
+  }
+
+  public off<K extends keyof SocketEventMap>(event: K, callback: (data: SocketEventMap[K]) => void): void {
+    if (this.socket) {
+      this.socket.off(event, callback)
     }
   }
 
