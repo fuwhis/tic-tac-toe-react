@@ -8,9 +8,10 @@ export default (httpServer) => {
     },
   })
 
-  io.on("connection", (socket) => {
-    console.log('connection_id', socket.id)
-  })
+  // listen all ports
+  // io.on("connection", (socket) => {
+  //   console.log('connection_id:', socket.id)
+  // })
 
   useSocketServer(io, {
     controllers: [__dirname + "/api/controllers/*.ts"]

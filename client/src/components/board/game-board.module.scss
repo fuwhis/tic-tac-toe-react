@@ -1,0 +1,18 @@
+.game_board {
+  margin: 25px;
+  width: 500px;
+  height: 500px;
+  border: 1px solid #ccc;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  border-radius: 15px;
+}
+
+.is_x {
+  color: #17b3cb;
+}
+
+.is_o {
+  color: #fc7e09;
+}
