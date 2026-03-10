@@ -7,18 +7,20 @@ import { GAME_STATE } from './constants/common'
 import useGameFacade from './facades/gameFacade'
 import useSocketFacade from './facades/socketFacade'
 import Routes from './routes'
-import { MovePayload, RoomErrorPayload, RoomJoinedPayload, StartGamePayload, WaitingPayload, WinPayload } from './types/socket-types'
+import { GameHistoryItem, MovePayload, RoomErrorPayload, RoomJoinedPayload, StartGamePayload, WaitingPayload, WinPayload } from './types/socket-types'
 
 function App() {
   const [_isLoading, setIsLoading] = useState(false)
   const navigate = useNavigate()
-  const { connect, onEvent, offEvent } = useSocketFacade()
+  const { connect, emit, onEvent, offEvent } = useSocketFacade()
   const {
     state,
     initRoom,
     setWaiting,
     setReady,
     setPlayers,
+    setScores,
+    setHistory,
     resetGame,
     applyRemoteMove,
     setGameState
@@ -52,6 +54,7 @@ function App() {
       resetGame()
       setReady()
       setGameState(GAME_STATE.IN_PROGRESS)
+      emit('get_game_history', { limit: 20 })
     }
 
     const handleRoomError = (payload: RoomErrorPayload) => {
@@ -70,6 +73,16 @@ function App() {
 
     const handleGameWin = (_payload: WinPayload) => {
       setGameState(GAME_STATE.GAME_OVER)
+      if (_payload.scores) {
+        setScores(_payload.scores)
+      }
+      if (_payload.history) {
+        setHistory(_payload.history)
+      }
+    }
+
+    const handleGameHistory = (payload: { items: GameHistoryItem[] }) => {
+      setHistory(payload.items || [])
     }
 
     const handlePlayerLeft = (payload: WaitingPayload) => {
@@ -88,6 +101,7 @@ function App() {
     onEvent('room_join_error', handleRoomError)
     onEvent('on_game_update', handleGameUpdate)
     onEvent('on_game_win', handleGameWin)
+    onEvent('game_history', handleGameHistory)
     onEvent('player_left', handlePlayerLeft)
 
     return () => {
@@ -97,9 +111,10 @@ function App() {
       offEvent('room_join_error', handleRoomError)
       offEvent('on_game_update', handleGameUpdate)
       offEvent('on_game_win', handleGameWin)
+      offEvent('game_history', handleGameHistory)
       offEvent('player_left', handlePlayerLeft)
     }
-  }, [applyRemoteMove, initRoom, navigate, offEvent, onEvent, resetGame, setGameState, setPlayers, setReady, setWaiting])
+  }, [applyRemoteMove, emit, initRoom, navigate, offEvent, onEvent, resetGame, setGameState, setHistory, setPlayers, setReady, setScores, setWaiting])
 
   return (
     <>

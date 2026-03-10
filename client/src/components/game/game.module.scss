@@ -21,3 +21,44 @@
   font-weight: 800;
   margin: 25px;
 }
+
+.score_section,
+.history_section {
+  width: min(900px, calc(100% - 32px));
+  margin: 16px auto;
+  color: #ffffff;
+}
+
+.score_section h3,
+.history_section h3 {
+  margin-bottom: 8px;
+}
+
+.score_list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.history_table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.history_table th,
+.history_table td {
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  padding: 10px;
+  text-align: left;
+}
+
+.history_table th {
+  background-color: rgba(0, 0, 0, 0.35);
+}
+
+.empty_text {
+  color: rgba(255, 255, 255, 0.8);
+}

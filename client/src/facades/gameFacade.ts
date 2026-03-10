@@ -1,7 +1,14 @@
 import { GAME_STATE } from "../constants/common"
 import useGameStore from "../store/gameStore"
-import { PlayerInfo, PlayerSymbol } from "../types/socket-types"
+import { GameHistoryItem, PlayerInfo, PlayerSymbol, ScoreItem } from "../types/socket-types"
 import { CellValue } from "../types/game-types"
+
+type MoveResult = {
+  moved: boolean
+  symbol?: PlayerSymbol
+  winnerSymbol?: PlayerSymbol | null
+  isDraw?: boolean
+}
 
 type GameFacade = {
   board: CellValue[]
@@ -12,10 +19,14 @@ type GameFacade = {
   username: string | null
   playerSymbol: PlayerSymbol | null
   players: PlayerInfo[]
+  scores: ScoreItem[]
+  history: GameHistoryItem[]
   initRoom: (params: { roomId: string; username: string; symbol: PlayerSymbol }) => void
   setPlayers: (players: PlayerInfo[]) => void
-  makeMove: (index: number) => boolean
+  makeMove: (index: number) => MoveResult
   applyRemoteMove: (index: number, symbol: PlayerSymbol) => void
+  setScores: (scores: ScoreItem[]) => void
+  setHistory: (history: GameHistoryItem[]) => void
   setWaiting: () => void
   setReady: () => void
   resetGame: () => void
@@ -34,10 +45,14 @@ const useGameFacade = (): GameFacade => {
     username,
     playerSymbol,
     players,
+    scores,
+    history,
     initRoom,
     setPlayers,
     makeMove,
     applyRemoteMove,
+    setScores,
+    setHistory,
     setWaiting,
     setReady,
     resetGame,
@@ -53,11 +68,15 @@ const useGameFacade = (): GameFacade => {
     username,
     playerSymbol,
     players,
+    scores,
+    history,
     initRoom,
     setPlayers,
     state,
     makeMove,
     applyRemoteMove,
+    setScores,
+    setHistory,
     setWaiting,
     setReady,
     resetGame,

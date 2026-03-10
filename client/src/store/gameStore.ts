@@ -2,7 +2,14 @@ import { create } from 'zustand'
 import { GAME_STATE } from '../constants/common'
 import { CellValue } from '../types/game-types'
 import { calculateWinner } from '../utils'
-import { PlayerInfo, PlayerSymbol } from '../types/socket-types'
+import { GameHistoryItem, PlayerInfo, PlayerSymbol, ScoreItem } from '../types/socket-types'
+
+type MoveResult = {
+  moved: boolean
+  symbol?: PlayerSymbol
+  winnerSymbol?: PlayerSymbol | null
+  isDraw?: boolean
+}
 
 type GameState = {
   board: CellValue[]
@@ -14,14 +21,18 @@ type GameState = {
   username: string | null
   playerSymbol: PlayerSymbol | null
   players: PlayerInfo[]
+  scores: ScoreItem[]
+  history: GameHistoryItem[]
   setGameState: (state: GAME_STATE) => void
 }
 
 type GameAction = {
   initRoom: (params: { roomId: string; username: string; symbol: PlayerSymbol }) => void
   setPlayers: (players: PlayerInfo[]) => void
-  makeMove: (index: number) => boolean
+  makeMove: (index: number) => MoveResult
   applyRemoteMove: (index: number, symbol: PlayerSymbol) => void
+  setScores: (scores: ScoreItem[]) => void
+  setHistory: (history: GameHistoryItem[]) => void
   setWaiting: () => void
   setReady: () => void
   resetGame: () => void
@@ -37,6 +48,8 @@ const useGameStore = create<GameState & GameAction>((set, get) => ({
   username: null,
   playerSymbol: null,
   players: [],
+  scores: [],
+  history: [],
 
   initRoom: ({ roomId, username, symbol }) => set({
     roomId,
@@ -59,11 +72,11 @@ const useGameStore = create<GameState & GameAction>((set, get) => ({
       state !== GAME_STATE.READY &&
       state !== GAME_STATE.IN_PROGRESS
     ) {
-      return false
+      return { moved: false }
     }
 
     if (!playerSymbol || playerSymbol !== expectedSymbol || winner || boardCopy[index]) {
-      return false
+      return { moved: false }
     }
 
     boardCopy[index] = expectedSymbol
@@ -79,7 +92,12 @@ const useGameStore = create<GameState & GameAction>((set, get) => ({
       state: winnerPlayer || isDraw ? GAME_STATE.GAME_OVER : GAME_STATE.IN_PROGRESS
     })
 
-    return true
+    return {
+      moved: true,
+      symbol: expectedSymbol,
+      winnerSymbol: winnerPlayer as PlayerSymbol | null,
+      isDraw
+    }
   },
 
   applyRemoteMove: (index, symbol) => {
@@ -110,6 +128,9 @@ const useGameStore = create<GameState & GameAction>((set, get) => ({
       state: winnerPlayer || isDraw ? GAME_STATE.GAME_OVER : GAME_STATE.IN_PROGRESS
     })
   },
+
+  setScores: (scores) => set({ scores }),
+  setHistory: (history) => set({ history }),
 
   resetGame: () => set({
     board: Array(9).fill(null),
